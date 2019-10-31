@@ -1,36 +1,99 @@
-import axios from 'axios';
+// import axios from 'axios';
 
 const GET_SWAPI_HEROES_PENDING = "GET_SWAPI_HEROES_PENDING";
 const GET_SWAPI_HEROES_SUCCESS = "GET_SWAPI_HEROES_SUCCESS";
 const GET_SWAPI_HEROES_REJECTED = "GET_SWAPI_HEROES_REJECTED";
 
-// https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise
 
-const API_URL = "https://swapi.co/api/people";
+const API_URL = `https://swapi.co/api/people/`;
 
 function getHeroesSuccess(data) {
-    console.log(data)
     return {
         type: GET_SWAPI_HEROES_SUCCESS,
         data
     }
 }
 
-function getSwapiHeroes() {
+function caseRequest(dispatch, value) {
+    return new Promise((res, rej) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", API_URL);
+        xhr.onload = () => xhr.status === 200 ? res(xhr.response) : console.log('ERROR');
+        xhr.onerror = () => rej(new Error('Bad Request'))
+        xhr.send();
+    })
+}
+
+function getSwapiHeroes(e) {
+
     return function(dispatch) {
-        dispatch({ type: GET_SWAPI_HEROES_PENDING });
-        // ETO TO KAK RABOTAET AXIOS VNUTRI https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise
-        // NAPISAT TOJE SAMOE NE ISPOLZUYA BIBLIOTEKI AXIOS
-        axios.get(API_URL)
-            .then((response)=>{
-               dispatch(getHeroesSuccess(response.data.results));
-                console.log(response);
-            })
-            .catch((error) => {
-                // handle error
-                dispatch({ type: GET_SWAPI_HEROES_REJECTED, data: error});
-                console.log(error);
-            })
+        const value = +e.target.innerText;
+
+        switch (value) {
+            case 1:
+                caseRequest(dispatch, value)
+                    .then((response) => {
+                        response = JSON.parse(response).results;
+                        response.length = value;
+                        dispatch(getHeroesSuccess(response));
+                    })
+                    .catch((error) => {
+                        dispatch({ type: GET_SWAPI_HEROES_REJECTED, data: error});
+                        console.log(error);
+                    });
+                break;
+            case 2:
+                caseRequest(dispatch, value)
+                    .then((response) => {
+                        response = JSON.parse(response).results;
+                        response.length = value;
+                        dispatch(getHeroesSuccess(response));
+                    })
+                    .catch((error) => {
+                        dispatch({ type: GET_SWAPI_HEROES_REJECTED, data: error});
+                        console.log(error);
+                    });
+                break;
+            case 3:
+                caseRequest(dispatch, value)
+                    .then((response) => {
+                        response = JSON.parse(response).results;
+                        response.length = value;
+                        dispatch(getHeroesSuccess(response));
+                    })
+                    .catch((error) => {
+                        dispatch({ type: GET_SWAPI_HEROES_REJECTED, data: error});
+                        console.log(error);
+                    });
+                break;
+            case 4:
+                caseRequest(dispatch, value)
+                    .then((response) => {
+                        response = JSON.parse(response).results;
+                        response.length = value;
+                        dispatch(getHeroesSuccess(response));
+                    })
+                    .catch((error) => {
+                        dispatch({ type: GET_SWAPI_HEROES_REJECTED, data: error});
+                        console.log(error);
+                    });
+                break;
+            case 5:
+                caseRequest(dispatch, value)
+                    .then((response) => {
+                        response = JSON.parse(response).results;
+                        response.length = value;
+                        dispatch(getHeroesSuccess(response));
+                    })
+                    .catch((error) => {
+                        dispatch({ type: GET_SWAPI_HEROES_REJECTED, data: error});
+                        console.log(error);
+                    });
+                break;
+            default:
+                console.log('error')
+        }
+
     }
 }
 
